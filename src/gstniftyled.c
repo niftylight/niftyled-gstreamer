@@ -424,7 +424,7 @@ static void gst_niftyled_base_init (gpointer gclass)
     "niftyled",
     "Sink/Video/Device",
     "Output pixel data to LED-setups using libniftyled",
-    "Daniel Hiepler <daniel@niftylight.de>");
+    "Daniel Hiepler <daniel-nlgst@niftylight.de>");
 
   gst_element_class_add_pad_template(element_class,
       gst_static_pad_template_get(&sink_factory));

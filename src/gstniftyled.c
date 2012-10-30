@@ -143,7 +143,9 @@ static gboolean gst_niftyled_start(GstBaseSink *bsink)
 				led_prefs_node_free(pnode);
 				return FALSE;
 		}
-        
+
+		led_prefs_node_free(pnode);
+		
         /* get first toplevel tile & hardware */
 		LedHardware *hw;
         if(!(hw = led_setup_get_hardware(nl->setup)))
@@ -152,17 +154,7 @@ static gboolean gst_niftyled_start(GstBaseSink *bsink)
                 return FALSE;
         }
         
-        /* do mapping */
-        if(!led_hardware_list_refresh_mapping(hw))
-                return FALSE;
                 
-        /* set correct gain to hardware */
-        if(!led_hardware_list_refresh_gain(hw))
-        {
-                GST_ERROR_OBJECT(bsink, "failed to set gain");
-                return FALSE;
-        }
-        
         /* determine width of input-frames - dimensions of mapped chain */
         LedFrameCord width, height;
         width = led_setup_get_width(nl->setup);
@@ -179,22 +171,33 @@ static gboolean gst_niftyled_start(GstBaseSink *bsink)
                 //~ GST_ERROR_OBJECT(bsink, "failed to get maximum bitwidth");
                 //~ return FALSE;
         //~ }
+       
+		/* allocate frame (where our pixelbuffer resides) */
+		NFT_LOG(L_INFO, "Allocating %s frame (%dx%d)", 
+	        nl->format, width, height);
 
-        /* initialize pixel-format */
-        led_pixel_format_new();
-        
-        LedPixelFormat *format  = led_pixel_format_from_string(nl->format);
-        
-	/* allocate frame (where our pixelbuffer resides) */
-	NFT_LOG(L_INFO, "Allocating frame: %dx%d (%d bpp, %d channels)", 
-	        width, height, nl->format);
-        
+		LedPixelFormat *format  = led_pixel_format_from_string(nl->format);
+		
         if(!(nl->frame = led_frame_new(width, height, format)))
         {
                 GST_ERROR_OBJECT(bsink, "failed to create frame");
-		return FALSE;
+				return FALSE;
         }
-        
+
+		/* do mapping */
+        if(!led_hardware_list_refresh_mapping(hw))
+                return FALSE;
+        /* precalc memory offsets for actual mapping */
+        if(!led_chain_map_from_frame(led_hardware_get_chain(hw), nl->frame))
+                return FALSE;
+		
+        /* set correct gain to hardware */
+        if(!led_hardware_list_refresh_gain(hw))
+        {
+                GST_ERROR_OBJECT(bsink, "failed to set gain");
+                return FALSE;
+        }
+		
         return TRUE;
 }
 

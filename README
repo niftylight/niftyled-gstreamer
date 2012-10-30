@@ -1,7 +1,1 @@
-Example:
-
-gst-launch --gst-debug=niftyled:5 videotestsrc ! 'video/x-raw-rgb,bpp=24,width=16,height=16' ! niftyled loglevel=debug
-
-gst-launch --gst-debug=niftyled:5 audiotestsrc ! queue ! audioconvert ! libvisual_lv_analyzer ! ffmpegcolorspace ! 'video/x-raw-rgb,bpp=24,width=16,height=16' ! niftyled loglevel=debug
-
-gst-launch --gst-debug=niftyled:5 alsasrc ! queue ! audioconvert ! libvisual_infinite ! 'video/x-raw-rgb,width=32,height=32' ! ffmpegcolorspace ! videoscale ! video/x-raw-rgb,bpp=24,width=16,height=16 ! niftyled loglevel=debug sync=false
+s. http://wiki.niftylight.de/gstreamer

@@ -128,7 +128,6 @@ static gboolean gst_niftyled_start(GstBaseSink *bsink)
         GstNiftyled *nl = GST_NIFTYLED(bsink);
 
         /* parse config-file */
-		/* parse prefs-file */
     	LedPrefsNode *pnode;
     	if(!(pnode = led_prefs_node_from_file(nl->configfile)))
     	{

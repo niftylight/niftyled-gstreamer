@@ -2,7 +2,7 @@ dnl required version of autoconf
 AC_PREREQ([2.53])
 
 dnl TODO: fill in your package name and package version here
-AC_INIT([gst-plugins-niftyled],[0.0.1],[bugs@niftylight.de],[],[http://wiki.niftylight.de/gstreamer])
+AC_INIT([gst-plugins-niftyled],[0.0.1],[http://github.com/niftylight/niftyled-gstreamer/issues],[],[http://wiki.niftylight.de/gstreamer])
 
 dnl required versions of gstreamer and plugins-base
 GST_REQUIRED=0.10.16
@@ -25,9 +25,11 @@ LT_PREREQ([2.2.6])
 LT_INIT
 
 dnl give error and exit if we don't have pkgconfig
-AC_CHECK_PROG(HAVE_PKGCONFIG, pkg-config, [ ], [
-  AC_MSG_ERROR([You need to have pkg-config installed!])
-])
+PKG_PROG_PKG_CONFIG([0.14])
+if test -z "${PKG_CONFIG}"; then
+  AC_MSG_ERROR([*** pkg-config not found. See http://www.freedesktop.org/software/pkgconfig/ or check your distribution.])
+fi
+
 
 dnl Check for the required version of GStreamer core (and gst-plugins-base)
 dnl This will export GST_CFLAGS and GST_LIBS variables for use in Makefile.am

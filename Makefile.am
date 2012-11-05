@@ -1,3 +1,9 @@
-SUBDIRS = src
+# AMFLAGS
+ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST =
+
+SUBDIRS = \
+    src
+
+EXTRA_DIST = \
+    gentoo

@@ -3,6 +3,15 @@ AC_PREREQ([2.53])
 
 dnl TODO: fill in your package name and package version here
 AC_INIT([gst-plugins-niftyled],[0.0.1],[http://github.com/niftylight/niftyled-gstreamer/issues],[],[http://wiki.niftylight.de/gstreamer])
+AC_COPYRIGHT([Copyright (C) 2006-2012 Daniel Hiepler])
+
+dnl infos
+PACKAGE_DESCRIPTION="gStreamer plugins for the niftyled suite"
+PACKAGE_DESCRIPTION_LONG="gStreamer plugins to use niftyled LED hardware as video sinks"
+AC_SUBST([PACKAGE_DESCRIPTION], [${PACKAGE_DESCRIPTION}], [package description])
+AC_SUBST([PACKAGE_DESCRIPTION_LONG], [${PACKAGE_DESCRIPTION_LONG}], [long package description])
+AC_DEFINE_UNQUOTED(PACKAGE_DESCRIPTION, "${PACKAGE_DESCRIPTION}", [package description])
+AC_DEFINE_UNQUOTED(PACKAGE_DESCRIPTION_LONG, "${PACKAGE_DESCRIPTION_LONG}", [long package description])
 
 dnl required versions of gstreamer and plugins-base
 GST_REQUIRED=0.10.16
@@ -12,7 +21,8 @@ AC_CONFIG_SRCDIR([src/gstniftyled.c])
 AC_CONFIG_HEADERS([config.h])
 
 dnl required version of automake
-AM_INIT_AUTOMAKE([1.10])
+AM_INIT_AUTOMAKE([tar-pax color-tests dist-bzip2 parallel-tests silent-rules -Wall])
+AC_CONFIG_MACRO_DIR([m4])
 
 dnl enable mainainer mode by default
 AM_MAINTAINER_MODE([enable])
@@ -89,6 +99,23 @@ dnl set proper LDFLAGS for plugins
 GST_PLUGIN_LDFLAGS='-module -avoid-version -export-symbols-regex [_]*\(gst_\|Gst\|GST_\).*'
 AC_SUBST(GST_PLUGIN_LDFLAGS)
 
-AC_CONFIG_FILES([Makefile src/Makefile])
+dnl arguments for configure script
+AC_ARG_ENABLE(
+    debug,
+    AS_HELP_STRING([--enable-debug], [enable debugging, default: no]),
+    [case "${enableval}" in
+         yes) debug=true ;;
+          no)  debug=false ;;
+           *)   AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;
+    esac],
+    [debug=false])
+AM_CONDITIONAL(DEBUG, test x$debug = xtrue)
+
+
+
+AC_CONFIG_FILES([
+    Makefile
+    src/Makefile
+    gentoo/media-plugins/gst-plugins-niftyled/gst-plugins-niftyled-9999.ebuild])
 AC_OUTPUT
 

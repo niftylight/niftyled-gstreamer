@@ -6,7 +6,7 @@ AC_INIT([gst-plugins-niftyled],[0.0.1],[http://github.com/niftylight/niftyled-gs
 AC_COPYRIGHT([Copyright (C) 2006-2012 Daniel Hiepler])
 
 dnl infos
-PACKAGE_DESCRIPTION="gStreamer plugins for the niftyled suite"
+PACKAGE_DESCRIPTION="gStreamer plugin to output pixeldata to LEDs using niftyled"
 PACKAGE_DESCRIPTION_LONG="gStreamer plugins to use niftyled LED hardware as video sinks"
 AC_SUBST([PACKAGE_DESCRIPTION], [${PACKAGE_DESCRIPTION}], [package description])
 AC_SUBST([PACKAGE_DESCRIPTION_LONG], [${PACKAGE_DESCRIPTION_LONG}], [long package description])
@@ -21,7 +21,7 @@ AC_CONFIG_SRCDIR([src/gstniftyled.c])
 AC_CONFIG_HEADERS([config.h])
 
 dnl required version of automake
-AM_INIT_AUTOMAKE([tar-pax color-tests dist-bzip2 parallel-tests silent-rules -Wall])
+AM_INIT_AUTOMAKE([tar-pax color-tests dist-bzip2 parallel-tests silent-rules -Wno-portability -Wall])
 AC_CONFIG_MACRO_DIR([m4])
 
 dnl enable mainainer mode by default

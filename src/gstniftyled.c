@@ -51,7 +51,7 @@
  * <refsect2>
  * <title>Example launch line</title>
  * |[
- * gst-launch -v -m fakesrc ! niftyled ! fakesink silent=TRUE
+ * gst-launch -v -m fakesrc ! niftyled ! fakesink silent=true
  * ]|
  * </refsect2>
  */
@@ -132,7 +132,7 @@ static gboolean gst_niftyled_start(GstBaseSink *bsink)
     	if(!(pnode = led_prefs_node_from_file(nl->configfile)))
     	{
                 GST_ERROR_OBJECT(bsink, "failed to load config from \"%s\"", nl->configfile);
-                return FALSE;
+                return false;
 		}
 
 		/* create setup from prefs-node */
@@ -140,7 +140,7 @@ static gboolean gst_niftyled_start(GstBaseSink *bsink)
     	{
 				GST_ERROR_OBJECT(bsink, "No valid setup found in preferences file \"%s\"", nl->configfile);
 				led_prefs_node_free(pnode);
-				return FALSE;
+				return false;
 		}
 
 		led_prefs_node_free(pnode);
@@ -150,7 +150,7 @@ static gboolean gst_niftyled_start(GstBaseSink *bsink)
         if(!(hw = led_setup_get_hardware(nl->setup)))
         {
                 GST_ERROR_OBJECT(bsink, "no hardware found in \"%s\"", nl->configfile);
-                return FALSE;
+                return false;
         }
         
                 
@@ -168,7 +168,7 @@ static gboolean gst_niftyled_start(GstBaseSink *bsink)
         //~ if(!(bitwidth = led_hardware_get_greyscale_bitwidth_max(nl->first_hw)))
         //~ {
                 //~ GST_ERROR_OBJECT(bsink, "failed to get maximum bitwidth");
-                //~ return FALSE;
+                //~ return false;
         //~ }
        
 		/* allocate frame (where our pixelbuffer resides) */
@@ -180,24 +180,24 @@ static gboolean gst_niftyled_start(GstBaseSink *bsink)
         if(!(nl->frame = led_frame_new(width, height, format)))
         {
                 GST_ERROR_OBJECT(bsink, "failed to create frame");
-				return FALSE;
+				return false;
         }
 
 		/* do mapping */
         if(!led_hardware_list_refresh_mapping(hw))
-                return FALSE;
+                return false;
         /* precalc memory offsets for actual mapping */
         if(!led_chain_map_from_frame(led_hardware_get_chain(hw), nl->frame))
-                return FALSE;
+                return false;
 		
         /* set correct gain to hardware */
         if(!led_hardware_list_refresh_gain(hw))
         {
                 GST_ERROR_OBJECT(bsink, "failed to set gain");
-                return FALSE;
+                return false;
         }
 		
-        return TRUE;
+        return true;
 }
 
 
@@ -220,7 +220,7 @@ static gboolean gst_niftyled_stop(GstBaseSink *bsink)
         /* deinitialize pixel-format */
         led_pixel_format_destroy();
         
-        return TRUE;
+        return true;
 }
 
 
@@ -355,7 +355,7 @@ static gboolean gst_niftyled_set_caps (GstBaseSink *bsink, GstCaps * caps)
                 {
                         NFT_LOG(L_ERROR, "Video width %d differs from LED-setup width %d",
                                 width, led_frame_get_width(nl->frame));
-                        return FALSE;
+                        return false;
                 }
         }
 
@@ -367,7 +367,7 @@ static gboolean gst_niftyled_set_caps (GstBaseSink *bsink, GstCaps * caps)
                 {
                         NFT_LOG(L_ERROR, "Video height %d differs from LED-setup height %d",
                                 height, led_frame_get_height(nl->frame));
-                        return FALSE;
+                        return false;
                 }
         }
 
@@ -407,7 +407,7 @@ static gboolean gst_niftyled_set_caps (GstBaseSink *bsink, GstCaps * caps)
 
 
         /* we can still fail later */
-        return TRUE;
+        return true;
 }
 
 
@@ -470,7 +470,7 @@ static void gst_niftyled_class_init (GstNiftyledClass * klass)
 static void gst_niftyled_init(GstNiftyled * nl, GstNiftyledClass * gclass)
 {       
         /* check binary version compatibility */
-        NFT_LED_CHECK_VERSION
+        NFT_LED_CHECK_VERSION;
                 
         /* default loglevel */
         nft_log_level_set(L_INFO);

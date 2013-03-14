@@ -468,10 +468,7 @@ static void gst_niftyled_class_init (GstNiftyledClass * klass)
  * initialize instance structure
  */
 static void gst_niftyled_init(GstNiftyled * nl, GstNiftyledClass * gclass)
-{       
-        /* check binary version compatibility */
-        NFT_LED_CHECK_VERSION;
-                
+{                       
         /* default loglevel */
         nft_log_level_set(L_INFO);
 
@@ -497,6 +494,10 @@ static void gst_niftyled_init(GstNiftyled * nl, GstNiftyledClass * gclass)
  */
 static gboolean gst_niftyled_plugin_init(GstPlugin *plugin)
 {        
+	/* check binary version compatibility */
+        if(!NFT_LED_CHECK_VERSION)
+		return false;
+	
         /* debug category for fltering log messages */
         GST_DEBUG_CATEGORY_INIT (gst_niftyled_debug, "niftyled", 0, 
                                 "niftyled debugging category");

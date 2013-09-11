@@ -156,8 +156,8 @@ static gboolean gst_niftyled_start(GstBaseSink *bsink)
                 
         /* determine width of input-frames - dimensions of mapped chain */
         LedFrameCord width, height;
-        width = led_setup_get_width(nl->setup);
-        height = led_setup_get_height(nl->setup);
+		if(!led_setup_get_dim(nl->setup, &width, &height))
+				return false;        
                 
         /* amount of channels in completly mapped chain */
         //~ NftFrameChannel channels;
@@ -347,14 +347,19 @@ static gboolean gst_niftyled_set_caps (GstBaseSink *bsink, GstCaps * caps)
         /* get caps */
         GstStructure *s = gst_caps_get_structure(caps, 0);
 
+		/* get frame dimensions */
+		LedFrameCord f_width, f_height;
+		if(!led_frame_get_dim(nl->frame, &f_width, &f_height))
+				return false;
+		
         /* check width */
         gint width;
         if(gst_structure_get_int(s, "width", &width))
         {
-                if(width != (gint) led_frame_get_width(nl->frame))
+                if(width != (gint) f_width)
                 {
                         NFT_LOG(L_ERROR, "Video width %d differs from LED-setup width %d",
-                                width, led_frame_get_width(nl->frame));
+                                width, f_width);
                         return false;
                 }
         }
@@ -363,10 +368,10 @@ static gboolean gst_niftyled_set_caps (GstBaseSink *bsink, GstCaps * caps)
         gint height;
         if(gst_structure_get_int(s, "height", &height))
         {
-                if(height != (gint) led_frame_get_height(nl->frame))
+                if(height != (gint) f_height)
                 {
                         NFT_LOG(L_ERROR, "Video height %d differs from LED-setup height %d",
-                                height, led_frame_get_height(nl->frame));
+                                height, f_height);
                         return false;
                 }
         }

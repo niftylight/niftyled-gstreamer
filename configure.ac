@@ -2,7 +2,7 @@ dnl required version of autoconf
 AC_PREREQ([2.53])
 
 dnl TODO: fill in your package name and package version here
-AC_INIT([gst-plugins-niftyled],[0.0.1],[http://github.com/niftylight/niftyled-gstreamer/issues],[],[http://wiki.niftylight.de/gstreamer])
+AC_INIT([gst-plugins-niftyled],[0.1.1],[http://github.com/niftylight/niftyled-gstreamer/issues],[],[http://wiki.niftylight.de/gstreamer])
 AC_COPYRIGHT([Copyright (C) 2006-2013 Daniel Hiepler])
 AC_CANONICAL_SYSTEM
 

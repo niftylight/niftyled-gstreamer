@@ -32,6 +32,7 @@ dnl check for tools (compiler etc.)
 AC_PROG_CC
 
 dnl required version of libtool
+AM_PROG_AR
 LT_PREREQ([2.2.6])
 LT_INIT
 

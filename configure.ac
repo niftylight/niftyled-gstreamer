@@ -1,7 +1,6 @@
 dnl required version of autoconf
 AC_PREREQ([2.53])
 
-dnl TODO: fill in your package name and package version here
 AC_INIT([gst-plugins-niftyled],[0.1.1],[http://github.com/niftylight/niftyled-gstreamer/issues],[],[http://wiki.niftylight.de/gstreamer])
 AC_COPYRIGHT([Copyright (C) 2006-2014 Daniel Hiepler])
 AC_CANONICAL_SYSTEM
@@ -18,6 +17,7 @@ dnl required versions of gstreamer and plugins-base
 GST_REQUIRED=0.10.16
 GSTPB_REQUIRED=0.10.16
 
+AC_CONFIG_AUX_DIR([.])
 AC_CONFIG_SRCDIR([src/gstniftyled.c])
 AC_CONFIG_HEADERS([config.h])
 

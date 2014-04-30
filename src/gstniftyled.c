@@ -129,7 +129,7 @@ static gboolean gst_niftyled_start(GstBaseSink *bsink)
 
         /* parse config-file */
     	LedPrefsNode *pnode;
-    	if(!(pnode = led_prefs_node_from_file(nl->configfile)))
+    	if(!(pnode = led_prefs_node_from_file(LED_PREFS_VERSION, nl->configfile)))
     	{
                 GST_ERROR_OBJECT(bsink, "failed to load config from \"%s\"", nl->configfile);
                 return false;

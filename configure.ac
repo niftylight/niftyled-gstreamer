@@ -119,6 +119,6 @@ AM_CONDITIONAL(DEBUG, test x$debug = xtrue)
 AC_CONFIG_FILES([
     Makefile
     src/Makefile
-    gentoo/media-plugins/gst-plugins-niftyled/gst-plugins-niftyled-9999.ebuild])
+])
 AC_OUTPUT
 
